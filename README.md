@@ -7,7 +7,7 @@ autocompletado LSP, e integración nativa con **Ranger** mediante `vterm`.
 El objetivo es que una máquina nueva quede exactamente igual con dos pasos:
 
 ```bash
-git clone <URL-del-repositorio> emacs-dev-env
+git clone git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git emacs-dev-env
 cd emacs-dev-env && make all
 ```
 
@@ -30,7 +30,7 @@ en una terminal. Es compatible con Emacs 31.x; puedes cambiarlo con
 
 ```bash
 # 1. Clonar (o crear el repositorio la primera vez)
-git clone <URL-del-repositorio> emacs-dev-env
+git clone git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git emacs-dev-env
 cd emacs-dev-env
 
 # 2. Desplegar todo
@@ -163,7 +163,7 @@ git config user.email "tu@correo"
 
 make init-git
 # Opcional: publicar en tu remoto
-git remote add origin git@github.com:<usuario>/emacs-dev-env.git
+git remote add origin git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git
 git push -u origin main
 ```
 
@@ -174,7 +174,7 @@ git push -u origin main
 En una máquina nueva:
 
 ```bash
-git clone git@github.com:<usuario>/emacs-dev-env.git
+git clone git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git
 cd emacs-dev-env
 make all
 ```
@@ -195,7 +195,7 @@ directamente en `~/.emacs.d/init.el`.
 
 ```bash
 sudo apt update && sudo apt install -y git make   # o dnf/pacman
-git clone <URL> emacs-dev-env
+git clone git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git emacs-dev-env
 cd emacs-dev-env
 make all
 emacs

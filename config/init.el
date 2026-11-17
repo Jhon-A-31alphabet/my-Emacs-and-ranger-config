@@ -1,7 +1,7 @@
 ;;; init.el --- Entorno Emacs: Eglot + Corfu + Ranger -*- lexical-binding: t; -*-
 ;;
 ;; Configuración pensada para Emacs 30.x en terminal, reproducible desde
-;; https://github.com/<usuario>/emacs-dev-env (o el remoto que uses).
+;; https://github.com/Jhon-A-31alphabet/my-Emacs-and-ranger-config.
 ;;
 ;; Secciones:
 ;;   1. Repositorios y paquetes
