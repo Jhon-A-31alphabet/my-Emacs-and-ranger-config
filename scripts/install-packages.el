@@ -45,6 +45,22 @@
      (message "AVISO: no se pudo instalar %s: %s"
               pkg (error-message-string err)))))
 
+;; Compilar el módulo nativo de vterm para que M-r funcione sin preguntar.
+(when (package-installed-p 'vterm)
+  (condition-case err
+      (progn
+        (setq vterm-always-compile-module t)
+        (require 'vterm)
+        (unless (require 'vterm-module nil t)
+          (vterm-module-compile)
+          (require 'vterm-module))
+        (if (locate-library "vterm-module")
+            (message "vterm-module compilado correctamente.")
+          (message "AVISO: vterm-module no se encontró tras la compilación.")))
+    (error
+     (message "AVISO: no se pudo compilar vterm-module: %s"
+              (error-message-string err)))))
+
 (message "Preinstalación de paquetes finalizada.")
 
 ;;; install-packages.el ends here

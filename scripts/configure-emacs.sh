@@ -56,8 +56,15 @@ if ! grep -q "server-start" "${PROJECT_DIR}/config/init.el"; then
     warn "init.el no contiene server-start; emacsclient no podrá conectarse"
 fi
 
-if command -v emacs >/dev/null 2>&1; then
-    EMACS_MAJOR="$(emacs --version | head -n1 | sed -E 's/.* ([0-9]+)\..*/\1/')"
+EMACS_CMD=""
+if [[ -n "${PREFIX:-}" && -x "${PREFIX}/bin/emacs" ]]; then
+    EMACS_CMD="${PREFIX}/bin/emacs"
+elif command -v emacs >/dev/null 2>&1; then
+    EMACS_CMD="$(command -v emacs)"
+fi
+
+if [[ -n "$EMACS_CMD" ]]; then
+    EMACS_MAJOR="$("$EMACS_CMD" --version | head -n1 | sed -E 's/.* ([0-9]+)\..*/\1/')"
     if [[ "$EMACS_MAJOR" =~ ^[0-9]+$ ]] && (( EMACS_MAJOR < 29 )); then
         warn "Emacs ${EMACS_MAJOR}.x es antiguo. La configuración apunta a Emacs 30.x."
     fi

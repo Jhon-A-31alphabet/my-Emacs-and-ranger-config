@@ -33,21 +33,36 @@ install_debian() {
 
     local pkgs=(
         build-essential autoconf automake texinfo pkg-config
-        git curl wget ca-certificates
+        git curl wget ca-certificates less file python3
         libgnutls28-dev libncurses-dev libjansson-dev libtree-sitter-dev
         libxml2-dev libsqlite3-dev libgmp-dev zlib1g-dev libacl1-dev
-        libvterm-dev cmake libtool-bin
-        ripgrep fd-find python3-pip pipx ranger
+        libvterm-dev cmake libtool-bin xz-utils
+        ripgrep fd-find python3-pip python3-venv pipx ranger
     )
 
-    local gccjit
-    gccjit="$(apt-cache search --names-only '^libgccjit-[0-9]+-dev$' \
-        | awk '{print $1}' | sort -V | tail -n1)"
-    if [[ -n "$gccjit" ]]; then
-        pkgs+=("$gccjit")
-        log "Usando $gccjit para native-compilation"
+    local gcc_major gccjit
+    if command -v gcc >/dev/null 2>&1; then
+        gcc_major="$(gcc -dumpversion | cut -d. -f1)"
     else
-        warn "No se encontró libgccjit-*-dev; Emacs se compilará sin native-compilation"
+        gcc_major="$(apt-cache policy gcc 2>/dev/null \
+            | awk '/Candidato:|Candidate:/{print $2; exit}' \
+            | sed -E 's/^[0-9]+://' | cut -d. -f1)"
+    fi
+
+    # Preferir el libgccjit que coincide con el GCC del sistema.
+    gccjit="libgccjit-${gcc_major}-dev"
+    if [[ "$gcc_major" =~ ^[0-9]+$ ]] && apt-cache show "$gccjit" >/dev/null 2>&1; then
+        pkgs+=("$gccjit")
+        log "Usando ${gccjit} (coincide con GCC ${gcc_major})"
+    else
+        gccjit="$(apt-cache search --names-only '^libgccjit-[0-9]+-dev$' \
+            | awk '{print $1}' | sort -V | tail -n1)"
+        if [[ -n "$gccjit" ]]; then
+            pkgs+=("$gccjit")
+            warn "No hay libgccjit para GCC ${gcc_major}; usando ${gccjit}"
+        else
+            warn "No se encontró libgccjit-*-dev; Emacs se compilará sin native-compilation"
+        fi
     fi
 
     log "Instalando ${#pkgs[@]} paquetes con APT"
@@ -63,10 +78,10 @@ install_debian() {
 install_fedora() {
     local pkgs=(
         gcc gcc-c++ make autoconf automake texinfo pkgconf-pkg-config
-        git curl wget ca-certificates
+        git curl wget ca-certificates less file python3
         gnutls-devel ncurses-devel jansson-devel tree-sitter-devel
         libxml2-devel sqlite-devel gmp-devel zlib-devel libacl-devel
-        libgccjit-devel cmake libtool libvterm-devel
+        libgccjit-devel cmake libtool libvterm-devel xz
         ripgrep fd-find python3-pip pipx ranger
     )
 
@@ -82,9 +97,9 @@ install_fedora() {
 install_arch() {
     local pkgs=(
         base-devel autoconf automake texinfo pkgconf
-        git curl wget ca-certificates
+        git curl wget ca-certificates less file python
         gnutls ncurses jansson tree-sitter libxml2 sqlite gmp zlib acl
-        gccjit cmake libtool libvterm
+        gccjit cmake libtool libvterm xz
         ripgrep fd python-pipx ranger
     )
 

@@ -124,11 +124,19 @@ for file in early-init.el init.el; do
 done
 
 if command -v emacsclient >/dev/null 2>&1; then
-    if emacsclient -e '(server-version)' >/dev/null 2>&1; then
+    if emacsclient -e '(emacs-pid)' >/dev/null 2>&1; then
         printf '%s  ✔%s servidor de Emacs activo (emacsclient operativo)\n' "$GREEN" "$RESET"
     else
         printf '%s  ·%s servidor de Emacs inactivo (se inicia al abrir Emacs)\n' "$YELLOW" "$RESET"
     fi
+fi
+
+VTERM_MODULE="$(find "${EMACS_DIR}/elpa" -maxdepth 2 -name 'vterm-module.so' 2>/dev/null | head -n1 || true)"
+if [[ -n "$VTERM_MODULE" ]]; then
+    printf '%s  ✔%s %-30s %s\n' "$GREEN" "$RESET" "vterm-module" "$VTERM_MODULE"
+else
+    printf '%s  ·%s %-30s no compilado aún (M-r usará ansi-term como respaldo)\n' \
+        "$YELLOW" "$RESET" "vterm-module"
 fi
 
 case ":${PATH}:" in

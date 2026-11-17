@@ -134,6 +134,7 @@
 
 (use-package corfu
   :ensure t
+  :demand t
   :custom
   (corfu-auto t)
   (corfu-auto-delay 0.15)
@@ -150,10 +151,15 @@
   :config
   (global-corfu-mode 1)
   (when (require 'corfu-popupinfo nil t)
-    (corfu-popupinfo-mode 1))
-  ;; En terminal no existen child frames: corfu-terminal los emula.
+    (corfu-popupinfo-mode 1)))
+
+;; En terminal no existen child frames: corfu-terminal los emula con popon.
+(use-package corfu-terminal
+  :ensure t
+  :after corfu
+  :demand t
+  :config
   (unless (display-graphic-p)
-    (require 'corfu-terminal)
     (corfu-terminal-mode 1)))
 
 (use-package cape
@@ -377,7 +383,7 @@ Se invoca con M-r. Al pulsar Enter sobre un archivo, Ranger usa
 ;; 8. Servidor de Emacs (emacsclient)
 ;; ---------------------------------------------------------------------------
 (require 'server)
-(unless (server-running-p)
+(unless (or noninteractive (daemonp) (server-running-p))
   (ignore-errors (server-start)))
 
 ;;; init.el ends here
