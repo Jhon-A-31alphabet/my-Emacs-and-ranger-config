@@ -157,11 +157,19 @@ La primera vez, en la máquina de origen:
 
 ```bash
 cd emacs-dev-env
+# Identidad de Git (cámbiala por la tuya antes de publicar)
+git config user.name "Tu Nombre"
+git config user.email "tu@correo"
+
 make init-git
 # Opcional: publicar en tu remoto
 git remote add origin git@github.com:<usuario>/emacs-dev-env.git
 git push -u origin main
 ```
+
+> `make init-git` solo define una identidad local de respaldo
+> (`$USER@localhost`) si no existe ninguna configurada. Revísala con
+> `git config user.email` antes de publicar.
 
 En una máquina nueva:
 
