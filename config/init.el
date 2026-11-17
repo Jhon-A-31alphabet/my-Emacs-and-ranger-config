@@ -10,7 +10,7 @@
 ;;   4. Minibúfer y completado (Vertico, Orderless, Corfu, Cape)
 ;;   5. Eglot y servidores LSP
 ;;   6. Modos de lenguaje
-;;   7. vterm + Ranger (M-r)
+;;   7. vterm + Ranger (M-q)
 ;;   8. Servidor de Emacs (emacsclient)
 
 ;;; Code:
@@ -323,7 +323,7 @@
   (add-to-list 'auto-mode-alist (cons pattern 'f90-mode)))
 
 ;; ---------------------------------------------------------------------------
-;; 7. vterm + Ranger (M-r)
+;; 7. vterm + Ranger (M-q)
 ;; ---------------------------------------------------------------------------
 (use-package vterm
   :ensure t
@@ -340,7 +340,7 @@
 (defun my/ranger--root ()
   "Directorio raíz del proyecto actual, o `default-directory'.
 No pregunta por un proyecto cuando no hay uno activo."
-  (or (when-let ((project (project-current t)))
+  (or (when-let ((project (project-current)))
         (project-root project))
       default-directory))
 
@@ -352,7 +352,7 @@ No pregunta por un proyecto cuando no hay uno activo."
 
 (defun my/ranger ()
   "Abre o alterna Ranger dentro de Emacs en el directorio del proyecto.
-Se invoca con M-r. Al pulsar Enter sobre un archivo, Ranger usa
+Se invoca con M-q. Al pulsar Enter sobre un archivo, Ranger usa
 `emacsclient -n' para abrirlo en esta misma sesión."
   (interactive)
   (let ((buffer (get-buffer my/ranger-buffer-name)))
@@ -374,7 +374,16 @@ Se invoca con M-r. Al pulsar Enter sobre un archivo, Ranger usa
              (kill-buffer my/ranger-buffer-name))
            (my/ranger--fallback))))))))
 
-(global-set-key (kbd "M-r") #'my/ranger)
+(global-set-key (kbd "M-q") #'my/ranger)
+
+;; `prog-mode' y `vterm-mode' capturan M-q en sus mapas locales antes de
+;; consultar el mapa global. Se sobrescriben para que el atajo funcione
+;; también en buffers de código y dentro de la propia terminal.
+(with-eval-after-load 'prog-mode
+  (define-key prog-mode-map (kbd "M-q") #'my/ranger))
+
+(with-eval-after-load 'vterm
+  (define-key vterm-mode-map (kbd "M-q") #'my/ranger))
 
 (add-to-list 'display-buffer-alist
              '("\\*ranger\\*" (display-buffer-same-window)))

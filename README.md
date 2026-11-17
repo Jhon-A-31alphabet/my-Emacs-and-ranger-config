@@ -131,7 +131,7 @@ y `make doctor` indica qué falta.
 
 | Atajo | Acción |
 |---|---|
-| `M-r` | Abrir/alternar **Ranger** dentro de Emacs (vterm). |
+| `M-q` | Abrir/alternar **Ranger** dentro de Emacs (vterm). Sustituye a `fill-paragraph`. |
 | `C-c r` | Renombrar símbolo (Eglot). |
 | `C-c a` | Acciones de código (Eglot). |
 | `C-c f` | Formatear buffer/región (Eglot). |

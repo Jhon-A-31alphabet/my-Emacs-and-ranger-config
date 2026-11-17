@@ -135,7 +135,7 @@ VTERM_MODULE="$(find "${EMACS_DIR}/elpa" -maxdepth 2 -name 'vterm-module.so' 2>/
 if [[ -n "$VTERM_MODULE" ]]; then
     printf '%s  ✔%s %-30s %s\n' "$GREEN" "$RESET" "vterm-module" "$VTERM_MODULE"
 else
-    printf '%s  ·%s %-30s no compilado aún (M-r usará ansi-term como respaldo)\n' \
+    printf '%s  ·%s %-30s no compilado aún (M-q usará ansi-term como respaldo)\n' \
         "$YELLOW" "$RESET" "vterm-module"
 fi
 

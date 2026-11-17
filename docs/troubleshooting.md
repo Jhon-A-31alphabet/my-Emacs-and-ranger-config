@@ -85,7 +85,7 @@ sudo pacman -S cmake libtool libvterm
 emacs --batch -l ~/.emacs.d/init.el --eval '(vterm-module-compile)'
 ```
 
-Mientras tanto, `M-r` usa `ansi-term` como respaldo automático.
+Mientras tanto, `M-q` usa `ansi-term` como respaldo automático.
 
 ---
 

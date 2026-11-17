@@ -45,7 +45,7 @@
      (message "AVISO: no se pudo instalar %s: %s"
               pkg (error-message-string err)))))
 
-;; Compilar el módulo nativo de vterm para que M-r funcione sin preguntar.
+;; Compilar el módulo nativo de vterm para que M-q funcione sin preguntar.
 (when (package-installed-p 'vterm)
   (condition-case err
       (progn

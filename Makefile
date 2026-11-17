@@ -52,7 +52,7 @@ help:
 all: deps emacs lsp ranger config packages
 	@echo ""
 	@echo "✔ Entorno desplegado. Abre una terminal nueva y ejecuta: emacs"
-	@echo "  Atajo para Ranger dentro de Emacs: M-r"
+	@echo "  Atajo para Ranger dentro de Emacs: M-q"
 	@echo ""
 	@-$(MAKE) --no-print-directory doctor
 
