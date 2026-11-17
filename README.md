@@ -174,7 +174,7 @@ git push -u origin main
 En una máquina nueva:
 
 ```bash
-git clone git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git
+git clone git@github.com:Jhon-A-31alphabet/my-Emacs-and-ranger-config.git emacs-dev-env
 cd emacs-dev-env
 make all
 ```
